@@ -1,0 +1,93 @@
+﻿@model Equipment_Rental.Models.EquipmentItem
+@{
+    ViewData["Title"] = "Редактиране на оборудване";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6 shadow-lg p-4 bg-white rounded">
+            <div class="d-flex align-items-center mb-4">
+                <a href="/Equipment/Index" class="btn btn-outline-secondary btn-sm me-3">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+                <h2 class="mb-0 text-primary">Редактиране на продукт</h2>
+            </div>
+
+            <form method="post">
+                <input type="hidden" asp-for="Id" />
+                
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label fw-bold">Име на продукта</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label fw-bold">Описание</label>
+                    <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Description" class="text-danger small"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="QuantityAvailable" class="form-label fw-bold">Количество</label>
+                        <input asp-for="QuantityAvailable" type="number" class="form-control" />
+                        <span asp-validation-for="QuantityAvailable" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Condition" class="form-label fw-bold">Състояние</label>
+                        <select asp-for="Condition" class="form-select">
+                            <option value="New">Ново</option>
+                            <option value="Good">Добро</option>
+                            <option value="Used">Използвано</option>
+                            <option value="Broken">За ремонт</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ImageUrl" class="form-label fw-bold">Линк към изображение</label>
+                    <input asp-for="ImageUrl" class="form-control" id="imageUrlInput" />
+                    <div class="mt-3 text-center p-2 border rounded bg-light">
+                        <p class="text-muted small">Текущо изображение:</p>
+                        <img src="@Model.ImageUrl" id="imagePreview"
+                             style="max-height: 200px; max-width: 100%; border-radius: 8px; display: @(string.IsNullOrEmpty(Model.ImageUrl) ? "none" : "block"); margin: 0 auto;"
+                             alt="Преглед" />
+                        <i id="imagePlaceholder" class="bi bi-image text-muted"
+                           style="font-size: 3rem; display: @(string.IsNullOrEmpty(Model.ImageUrl) ? "block" : "none");"></i>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="bi bi-save"></i> Запази промените
+                    </button>
+                    <a href="/Equipment/Index" class="btn btn-light">Отказ</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Скрипт за динамичен преглед при промяна на URL-а
+        const urlInput = document.getElementById('imageUrlInput');
+        const preview = document.getElementById('imagePreview');
+        const placeholder = document.getElementById('imagePlaceholder');
+
+        urlInput.addEventListener('input', function(e) {
+            const url = e.target.value;
+            if (url) {
+                preview.src = url;
+                preview.style.display = 'block';
+                placeholder.style.display = 'none';
+            } else {
+                preview.style.display = 'none';
+                placeholder.style.display = 'block';
+            }
+        });
+    </script>
+}

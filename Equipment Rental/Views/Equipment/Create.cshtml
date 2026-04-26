@@ -1,0 +1,74 @@
+﻿@model Equipment_Rental.Models.EquipmentItem
+@{
+    ViewData["Title"] = "Добавяне на оборудване";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6 shadow p-4 bg-white rounded">
+            <h2 class="mb-4 text-center text-primary">Добавяне на нов продукт</h2>
+            
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label">Име на продукта</label>
+                    <input asp-for="Name" class="form-control" placeholder="напр. Къртач Bosch" />
+                    <span asp-validation-for="Name" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label">Описание</label>
+                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Description" class="text-danger small"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="QuantityAvailable" class="form-label">Количество</label>
+                        <input asp-for="QuantityAvailable" type="number" class="form-control" />
+                        <span asp-validation-for="QuantityAvailable" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Condition" class="form-label">Състояние</label>
+                        <select asp-for="Condition" class="form-select">
+                            <option value="New">Ново</option>
+                            <option value="Good">Добро</option>
+                            <option value="Used">Използвано</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ImageUrl" class="form-label">URL на изображение</label>
+                    <input asp-for="ImageUrl" class="form-control" placeholder="https://..." />
+                    <div id="imagePreview" class="mt-2 text-center" style="display:none;">
+                        <p class="text-muted small">Преглед на снимката:</p>
+                        <img src="" id="imgSource" style="max-height: 150px; border-radius: 5px;" />
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-success btn-lg">Запази продукт</button>
+                    <a href="/Equipment/Index" class="btn btn-link">Отказ</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Скрипт за предварителен преглед на снимката при въвеждане на URL
+        document.querySelector('[name="ImageUrl"]').addEventListener('input', function(e) {
+            const preview = document.getElementById('imagePreview');
+            const img = document.getElementById('imgSource');
+            if (e.target.value) {
+                img.src = e.target.value;
+                preview.style.display = 'block';
+            } else {
+                preview.style.display = 'none';
+            }
+        });
+    </script>
+}

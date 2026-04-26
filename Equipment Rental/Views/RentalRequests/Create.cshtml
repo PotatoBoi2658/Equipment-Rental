@@ -1,0 +1,77 @@
+﻿@model Equipment_Rental.Models.RentalRequest
+@{
+    ViewData["Title"] = "Нова заявка";
+    var equipment = ViewBag.Equipment as List<Equipment_Rental.Models.EquipmentItem>;
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow border-0">
+                <div class="card-header bg-primary text-white py-3">
+                    <h4 class="mb-0"><i class="bi bi-file-earmark-plus"></i> Форма за наемане</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post">
+                        <div asp-validation-summary="All" class="text-danger small mb-3"></div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Начална дата</label>
+                                <input type="date" name="StartDate" class="form-control" required
+                                       min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Крайна дата</label>
+                                <input type="date" name="EndDate" class="form-control" required 
+                                       min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Цел на наемане</label>
+                            <textarea name="Purpose" class="form-control" rows="2" placeholder="Опишете накратко за какво ви е нужно оборудването..."></textarea>
+                        </div>
+
+                        <h5 class="border-bottom pb-2 mb-3">Избор на оборудване</h5>
+                        
+                        <div class="row g-3">
+                            @if (equipment != null)
+                            {
+                                for (int i = 0; i < equipment.Count; i++)
+                                {
+                                    var item = equipment[i];
+                                    <div class="col-md-6">
+                                        <div class="card h-100 border p-2">
+                                            <div class="d-flex align-items-center">
+                                                <div class="form-check flex-grow-1">
+                                                    <input class="form-check-input" type="checkbox"
+                                                           name="items[@i].EquipmentItemId" value="@item.Id" id="item_@item.Id">
+                                                    <label class="form-check-label fw-bold" for="item_@item.Id">
+                                                        @item.Name
+                                                    </label>
+                                                    <div class="text-muted small">Налично: @item.QuantityAvailable бр.</div>
+                                                </div>
+                                                <div style="width: 80px;">
+                                                    <input type="number" name="items[@i].Quantity" class="form-control form-control-sm"
+                                                           value="1" min="1" max="@item.QuantityAvailable" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+
+                        <div class="d-grid gap-2 mt-5">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="bi bi-send"></i> Изпрати заявката за преглед
+                            </button>
+                            <a href="/RentalRequests/MyRequests" class="btn btn-link text-muted">Назад към списъка</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

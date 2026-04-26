@@ -1,0 +1,76 @@
+﻿@model List<Equipment_Rental.Models.RentalRequest>
+@{
+    ViewData["Title"] = "Управление на заявки";
+}
+
+<div class="container mt-4">
+    <h3 class="mb-4">📦 Всички заявки за наем</h3>
+
+    <div class="table-responsive">
+        <table class="table table-hover border">
+            <thead class="table-dark">
+                <tr>
+                    <th>Потребител</th>
+                    <th>Период</th>
+                    <th>Оборудване</th>
+                    <th>Статус</th>
+                    <th class="text-center">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model == null || !Model.Any())
+                {
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">Няма намерени заявки.</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var r in Model)
+                    {
+                        <tr>
+                            <td><strong>@(r.User?.UserName ?? "Няма информация")</strong></td>
+                            <td>
+                                <small>От: @r.StartDate.ToShortDateString()</small><br />
+                                <small>До: @r.EndDate.ToShortDateString()</small>
+                            </td>
+                            <td>
+                                @if (r.Items != null && r.Items.Any())
+                                {
+                                    @foreach (var i in r.Items)
+                                    {
+                                        <div class="badge bg-secondary text-wrap mb-1" style="display:block; text-align:left;">
+                                            • @(i.EquipmentItem?.Name ?? "Изтрит продукт") (x@(i.Quantity))
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="text-danger">Липсват артикули</span>
+                                }
+                            </td>
+                            <td>
+                                <span class="badge @(r.Status == "Approved" ? "bg-success" : r.Status == "Pending" ? "bg-warning" : "bg-danger")">
+                                    @r.Status
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                @if (r.Status == "Pending")
+                                {
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="/Admin/ChangeStatus?id=@r.Id&status=Approved" class="btn btn-outline-success">Одобри</a>
+                                        <a href="/Admin/ChangeStatus?id=@r.Id&status=Rejected" class="btn btn-outline-danger">Откажи</a>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="text-muted small">Обработена</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

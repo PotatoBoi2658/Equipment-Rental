@@ -1,0 +1,31 @@
+﻿@model Equipment_Rental.Models.RentalRequest
+@{
+    ViewData["Title"] = "Отказ на заявка";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card border-danger shadow">
+                <div class="card-body text-center p-5">
+                    <div class="text-danger mb-4">
+                        <i class="bi bi-exclamation-octagon" style="font-size: 4rem;"></i>
+                    </div>
+                    <h3 class="card-title">Сигурни ли сте?</h3>
+                    <p class="text-muted">
+                        Ще откажете заявката за наем, направена за периода:<br>
+                        <strong>@Model.StartDate.ToShortDateString() - @Model.EndDate.ToShortDateString()</strong>
+                    </p>
+                    
+                    <form method="post" action="/RentalRequests/Delete">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-danger btn-lg">Да, отмени заявката</button>
+                            <a href="/RentalRequests/MyRequests" class="btn btn-light">Назад</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

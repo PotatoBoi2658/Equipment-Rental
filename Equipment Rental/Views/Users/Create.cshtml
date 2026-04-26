@@ -1,0 +1,35 @@
+﻿@model Equipment_Rental.Models.CreateUserViewModel
+@{
+    ViewData["Title"] = "Нов потребител";
+    var roles = ViewBag.Roles as List<string>;
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6 card shadow p-4">
+            <h3 class="mb-4 text-primary">Добавяне на потребител</h3>
+            <form method="post">
+                <div asp-validation-summary="All" class="text-danger small mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="UserName" class="form-label fw-bold">Потребителско име</label>
+                    <input asp-for="UserName" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label fw-bold">Имейл</label>
+                    <input asp-for="Email" type="email" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label fw-bold">Парола</label>
+                    <input asp-for="Password" type="password" class="form-control" />
+                    <small class="text-muted">Паролата трябва да отговаря на изискванията (напр. главна буква, цифра и символ).</small>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 mb-2">Запази потребителя</button>
+                <a href="/Users/Index" class="btn btn-light w-100">Отказ</a>
+            </form>
+        </div>
+    </div>
+</div>

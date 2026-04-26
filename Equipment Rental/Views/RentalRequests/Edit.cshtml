@@ -1,0 +1,72 @@
+﻿@model Equipment_Rental.Models.RentalRequest
+@{
+    ViewData["Title"] = "Редактиране на заявка";
+    var equipment = ViewBag.Equipment as List<Equipment_Rental.Models.EquipmentItem>;
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow border-0">
+                <div class="card-header bg-warning text-dark py-3">
+                    <h4 class="mb-0"><i class="bi bi-pencil-square"></i> Корекция на заявка #@Model.Id</h4>
+                </div>
+                <div class="card-body p-4">
+                    @if (Model.Status != "Pending")
+                    {
+                        <div class="alert alert-danger">
+                            Тази заявка вече е обработена и не може да бъде редактирана.
+                        </div>
+                        <a href="/RentalRequests/MyRequests" class="btn btn-secondary">Назад</a>
+                    }
+                    else
+                    {
+                        <form method="post">
+                            <input type="hidden" asp-for="Id" />
+                            <input type="hidden" asp-for="UserId" />
+                            <input type="hidden" asp-for="Status" />
+
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Начална дата</label>
+                                    <input type="date" name="StartDate" class="form-control"
+                                           value="@Model.StartDate.ToString("yyyy-MM-dd")" required />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Крайна дата</label>
+                                    <input type="date" name="EndDate" class="form-control"
+                                           value="@Model.EndDate.ToString("yyyy-MM-dd")" required />
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Цел на наемане</label>
+                                <textarea name="Purpose" class="form-control" rows="2">@Model.Purpose</textarea>
+                            </div>
+
+                            <h5 class="border-bottom pb-2 mb-3">Оборудване в заявката</h5>
+                            <div class="alert alert-info small">
+                                <i class="bi bi-info-circle"></i> За да промените продуктите, моля откажете тази заявка и направете нова. Тук можете да промените само периода и описанието.
+                            </div>
+
+                            <ul class="list-group mb-4">
+                                @foreach (var item in Model.Items)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        @item.EquipmentItem.Name
+                                        <span class="badge bg-primary rounded-pill">x @item.Quantity</span>
+                                    </li>
+                                }
+                            </ul>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-warning btn-lg fw-bold">Запази промените</button>
+                                <a href="/RentalRequests/MyRequests" class="btn btn-link text-muted">Отказ</a>
+                            </div>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

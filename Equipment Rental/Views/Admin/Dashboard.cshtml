@@ -1,0 +1,66 @@
+﻿@model dynamic
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4"><i class="bi bi-speedometer2"></i> Административен панел</h2>
+    
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary mb-3 shadow h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Потребители</h5>
+                    <p class="card-text display-6">@(Model?.Users ?? 0)</p>
+                </div>
+                <div class="card-footer bg-transparent border-top-0 text-center">
+                    <a href="/Users/Index" class="text-white text-decoration-none stretched-link">
+                        Управление <i class="bi bi-arrow-right-circle ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-white bg-success mb-3 shadow h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Оборудване</h5>
+                    <p class="card-text display-6">@(Model?.Equipment ?? 0)</p>
+                </div>
+                <div class="card-footer bg-transparent border-top-0 text-center">
+                    <a href="/Equipment/Index" class="text-white text-decoration-none stretched-link">
+                        Към каталога <i class="bi bi-arrow-right-circle ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-white bg-info mb-3 shadow h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Всички заявки</h5>
+                    <p class="card-text display-6">@(Model?.Requests ?? 0)</p>
+                </div>
+                <div class="card-footer bg-transparent border-top-0 text-center">
+                    <a href="/Admin/Requests" class="text-white text-decoration-none stretched-link">
+                        Преглед <i class="bi bi-arrow-right-circle ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-white bg-warning text-dark mb-3 shadow h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Чакащи одобрение</h5>
+                    <p class="card-text display-6">@(Model?.Pending ?? 0)</p>
+                </div>
+                <div class="card-footer bg-transparent border-top-0 text-center">
+                    <a href="/Admin/Requests" class="text-dark text-decoration-none stretched-link">
+                        Обработи <i class="bi bi-arrow-right-circle ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
